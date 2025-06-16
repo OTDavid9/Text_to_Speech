@@ -5,15 +5,12 @@
     <title>Text to Speech Client</title>
 </head>
 <body>
-    <h2>Text to Speech Clientt</h2>
+    <h2>Text to Speech Client</h2>
     <textarea id="textInput" rows="6" cols="50" placeholder="Enter text here"></textarea><br><br>
 
     <label for="voiceSelect">Choose Voice:</label>
     <select id="voiceSelect">
-        <!-- You can populate these dynamically from your /voices endpoint -->
-        <option value="🇬🇧 🚺 Isabella">🇬🇧 🚺 Isabella</option>
-        <option value="🇺🇸 🚹 Michael">🇺🇸 🚹 Michael</option>
-        <!-- Add more voices here -->
+        <!-- Voices will be loaded dynamically -->
     </select><br><br>
 
     <button onclick="generateAudio()">Speak</button>
@@ -21,11 +18,29 @@
     <audio id="audioPlayer" controls></audio>
 
     <script>
+        // Load voices dynamically from /voices endpoint
+        const API_BASE_URL = "{{ api_base_url }}";
+        async function loadVoices() {
+            const response = await fetch(`${API_BASE_URL}/voices`);
+            const voices = await response.json();
+            const voiceSelect = document.getElementById('voiceSelect');
+
+            for (const [label, value] of Object.entries(voices)) {
+                const option = document.createElement('option');
+                option.value = label;
+                option.textContent = label;
+                voiceSelect.appendChild(option);
+            }
+        }
+
+        // Load voices on page load
+        window.onload = loadVoices;
+
         async function generateAudio() {
             const text = document.getElementById('textInput').value;
             const voice = document.getElementById('voiceSelect').value;
 
-            const response = await fetch('http://127.0.0.1:8000/generate-audio', {
+            const response = await fetch(`${API_BASE_URL}/generate-audio`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ text: text, voice: voice })
