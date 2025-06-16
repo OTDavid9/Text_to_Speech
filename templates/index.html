@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Text to Speech Client</title>
+</head>
+<body>
+    <h2>Text to Speech Clientt</h2>
+    <textarea id="textInput" rows="6" cols="50" placeholder="Enter text here"></textarea><br><br>
+
+    <label for="voiceSelect">Choose Voice:</label>
+    <select id="voiceSelect">
+        <!-- You can populate these dynamically from your /voices endpoint -->
+        <option value="🇬🇧 🚺 Isabella">🇬🇧 🚺 Isabella</option>
+        <option value="🇺🇸 🚹 Michael">🇺🇸 🚹 Michael</option>
+        <!-- Add more voices here -->
+    </select><br><br>
+
+    <button onclick="generateAudio()">Speak</button>
+
+    <audio id="audioPlayer" controls></audio>
+
+    <script>
+        async function generateAudio() {
+            const text = document.getElementById('textInput').value;
+            const voice = document.getElementById('voiceSelect').value;
+
+            const response = await fetch('http://127.0.0.1:8000/generate-audio', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ text: text, voice: voice })
+            });
+
+            if (response.ok) {
+                const audioBlob = await response.blob();
+                const audioUrl = URL.createObjectURL(audioBlob);
+                const audioPlayer = document.getElementById('audioPlayer');
+                audioPlayer.src = audioUrl;
+                audioPlayer.play();
+            } else {
+                alert('Error generating audio.');
+            }
+        }
+    </script>
+</body>
+</html>
