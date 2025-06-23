@@ -13,7 +13,9 @@ import json
 import warnings
 import time
 import os 
-from dotenv import load_dotenv
+from text_processing import process_string
+
+from dotenv import load_dotenv # type: ignore
 
 load_dotenv()
 
@@ -33,8 +35,8 @@ app.add_middleware(
 
 # Setup templates and static files
 templates = Jinja2Templates(directory="templates")
-app.mount("/static", StaticFiles(directory="static"), name="static")
-
+# app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/tts/static", StaticFiles(directory="static"), name="static")
 # Load voices
 with open('voice_choices.json', 'r', encoding='utf-8') as f:
     voice_map = json.load(f)
@@ -54,6 +56,8 @@ class AudioRequest(BaseModel):
     text: str
     voice: str
 
+
+
 @app.post("/generate-audio")
 async def generate_audio(request: AudioRequest):
     start_time = time.time()
@@ -63,10 +67,19 @@ async def generate_audio(request: AudioRequest):
 
     selected_voice = voice_map[request.voice]
 
+    input_text = request.text
+    print(input_text)
+
+    processed_text = process_string(input_text)
+    # processed_text = llm_text_preprocessor(input_text)
+    print(processed_text)
+
+
+
     generator = pipeline(
-        request.text,
+        processed_text,
         voice=selected_voice,
-        speed=1.2,
+        speed=1.1,
         split_pattern=None
     )
 

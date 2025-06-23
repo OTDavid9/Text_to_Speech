@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Text to Speech Client</title>
+    <link rel="stylesheet" type="text/css" href="../tts/static/styles.css">
+    <link rel="stylesheet" type="text/css" href="/static/styles.css">
+    <link rel="stylesheet" type="text/css" href="/tts/static/styles.css">
 </head>
 <body>
     <h2>Text to Speech Client</h2>
@@ -19,9 +22,10 @@
 
     <script>
         // Load voices dynamically from /voices endpoint
-        const API_BASE_URL = "{{ api_base_url }}";
+        // const API_BASE_URL = "{{ api_base_url }}";
         async function loadVoices() {
-            const response = await fetch(`${API_BASE_URL}/voices`);
+            // const response = await fetch(`${API_BASE_URL}/voices`);
+            const response = await fetch('/tts/voices');
             const voices = await response.json();
             const voiceSelect = document.getElementById('voiceSelect');
 
@@ -39,8 +43,9 @@
         async function generateAudio() {
             const text = document.getElementById('textInput').value;
             const voice = document.getElementById('voiceSelect').value;
+            // '/tts/generate-audio'
 
-            const response = await fetch(`${API_BASE_URL}/generate-audio`, {
+            const response = await fetch('/tts/generate-audio', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ text: text, voice: voice })
