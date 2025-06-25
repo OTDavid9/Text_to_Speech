@@ -100,12 +100,14 @@ async def generate_audio(request: AudioRequest):
         selected_voice = voice_map[request.voice]
         # selected_voice = "bf_alice"
         input_text = request.text
+        # speed = request.speed
 
         processed_text = process_string(input_text)
         generator = pipeline(
             processed_text,
             voice=selected_voice,
-            speed=1.3,
+            speed=1.0,
+            # speed=speed,
             split_pattern=None
         )
 
