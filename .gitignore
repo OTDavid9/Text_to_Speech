@@ -3,4 +3,12 @@ __pycache__/
 *.wav
 *.pyc
 .env
+.vscode/
 
+senior_level.py
+
+generated_output.wav
+
+jax_test.py
+main_binary.py
+app_config.py
