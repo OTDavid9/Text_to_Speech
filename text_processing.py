@@ -37,9 +37,8 @@ def process_string(input_string):
     try:
         # print(f"Input string : {input_string}")
         logger.info(f"Input string : {input_string}")
-        # Apply static replacements
-        for old, new in STATIC_REPLACEMENTS.items():
-            input_string = input_string.replace(old, new)    
+       
+           
         # Remove non-ASCII characters
         input_string = NON_ASCII_PATTERN.sub('', input_string)
         # Remove parentheses
@@ -50,9 +49,14 @@ def process_string(input_string):
         input_string = PHONE_PATTERN.sub(format_number, input_string)
         input_string = ACCOUNT_PATTERN.sub(format_number, input_string)
         input_string = input_string.replace("#", "")
+
+         # Apply static replacements
+        for old, new in STATIC_REPLACEMENTS.items():
+            input_string = input_string.replace(old, new) 
         # print(f"Processed string : {input_string}")
         logger.info(f"Processed string : {input_string}")
         logger.info("Sucessfully processed text for audio synthesis")
+        input_string = input_string.lower()
         # return input_string.lower()
         return input_string
     except Exception as e:

@@ -5,6 +5,7 @@ STATIC_REPLACEMENTS = {
     '*': '',
     'PIN': 'pin',
     'MTN': 'M T n',
-    "N": ""
+    # "N": "", 
+
 
 }
