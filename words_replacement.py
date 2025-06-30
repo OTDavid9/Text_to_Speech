@@ -4,7 +4,7 @@ STATIC_REPLACEMENTS = {
     'NGN': '',
     '*': '',
     'PIN': 'pin',
-    'MTN': 'M T n',
+    'MTN': 'M T n'
     # "N": "", 
 
 
