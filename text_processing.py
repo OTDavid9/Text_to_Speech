@@ -57,6 +57,7 @@ def process_string(input_string):
         logger.info(f"Processed string : {input_string}")
         logger.info("Sucessfully processed text for audio synthesis")
         input_string = input_string.lower()
+        input_string  = re.sub(r'\bn(?=\d)', '', input_string )
         # return input_string.lower()
         return input_string
     except Exception as e:
